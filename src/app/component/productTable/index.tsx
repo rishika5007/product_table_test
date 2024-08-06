@@ -10,7 +10,7 @@ import ProductDetailModal from '../modal';
 import ProgressCircle from '../progress/progress';
 
 const StyledTable = styled(Table)`
-  max-width: 1188px;
+  max-width: 100%;
   overflow: auto;
   * {
     scrollbar-width: thin;
@@ -33,8 +33,6 @@ const StyledTable = styled(Table)`
   }
 `;
 
-
-
 const StyledTableRow = styled(TableRow) <{ isEven: boolean }>`
   background-color: ${({ isEven }) => (isEven ? '#F5F5F5' : '#ffffff')};
   cursor: pointer;
@@ -45,6 +43,7 @@ const StyledTableCell = styled(TableCell)`
   &:last-of-type {
     border-right: none; 
   }
+  color: #364152;
 `;
 
 
@@ -120,6 +119,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
     {
       header: 'Actions',
       id: 'actions',
+      size: 200,
       cell: ({ row }) => (
         <div style={{ display: 'flex', gap: '8px' }}>
           <IconButton onClick={() => handleOpen(row.original?.id)}>
@@ -150,7 +150,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   };
 
   const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
 
@@ -213,22 +213,17 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
               </StyledTableRow>
             ))}
           </TableBody>
-          {/* <TablePaginationStyled
-            rowsPerPageOptions={[10, 25, 50]}
-            count={data.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handlePageChange}
-            onRowsPerPageChange={handleRowsPerPageChange}
+        {/* <TablePaginationStyled
+          rowsPerPageOptions={[10, 25, 50]}
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleRowsPerPageChange}
           /> */}
-        </TableContainer>
-      </StyledTable>
-
-      <ProductDetailModal
-        open={open}
-        onClose={handleClose}
-        product={selectedProduct}
-      />
+      </TableContainer>
+          </StyledTable>
+      <ProductDetailModal open={open} onClose={handleClose} product={selectedProduct} />
     </>
   );
 };

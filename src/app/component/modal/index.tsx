@@ -1,69 +1,120 @@
 'use client'
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
 import { Product } from '@components/app/lib/interface';
+import ProgressCircle from '../progress/progress';
 
 interface ProductDetailModalProps {
-  open: boolean;
-  onClose: () => void;
-  product: Product | null;
+    open: boolean;
+    onClose: () => void;
+    product: Product | null;
 }
 
 const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, product }) => {
-  return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="md"
-      fullWidth
-      PaperProps={{
-        style: {
-          padding: '20px',
-        },
-      }}
-    >
-      <DialogTitle>
-        {product ? product.title : 'Product Details'}
-      </DialogTitle>
-      <DialogContent dividers>
-        {product ? (
-          <>
-            <Typography variant="h6">
-              <strong>Category:</strong> {product.category}
-            </Typography>
-            <Typography variant="body1" paragraph>
-              {product.description}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Price:</strong> ${product.price}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Discount:</strong> {product.discountPercentage}%
-            </Typography>
-            <Typography variant="body1">
-              <strong>Rating:</strong> {product.rating}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Stock:</strong> {product.stock}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Tags:</strong> {product.tags.join(' , ')}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Brand:</strong> {product.brand}
-            </Typography>
-          </>
-        ) : (
-          <Typography>No product details available.</Typography>
-        )}
-      </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button onClick={onClose} variant="contained" color="primary">
-          Close
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
+    return (
+        <Dialog
+            open={open}
+            onClose={onClose}
+            maxWidth="md"
+            fullWidth
+            PaperProps={{
+                style: {
+                    padding: '20px',
+                },
+            }}
+        >
+            <DialogTitle sx={infoHeading}>
+                {product ? product.title : 'Product Details'}
+                <Typography variant="body1" sx={infoValue}>
+                    {product ? product?.description :''}
+                </Typography>
+            </DialogTitle>
+            <DialogContent dividers>
+                {product ? (
+                    <>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Category:
+                            </Typography>
+                            <Typography variant="body1" sx={infoValue}>
+                                {product.category}
+                            </Typography>
+                        </Box>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Price:
+                            </Typography>
+                            <Typography variant="body1" sx={infoValue}>
+                                ${product.price}
+                            </Typography>
+                        </Box>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Discount:
+                            </Typography>
+                            <Box sx={infoValue}>
+                                <ProgressCircle value={product?.discountPercentage} size={40} />
+                            </Box>
+                        </Box>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Rating:
+                            </Typography>
+                            <Typography variant="body1" sx={infoValue}>
+                                {product.rating}
+                            </Typography>
+                        </Box>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Stock:
+                            </Typography>
+                            <Typography variant="body1" sx={infoValue}>
+                                {product.stock}
+                            </Typography>
+                        </Box>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Tags:
+                            </Typography>
+                            <Typography variant="body1" sx={infoValue}>
+                                {product.tags.join(' , ')}
+                            </Typography>
+                        </Box>
+                        <Box sx={infoContainer}>
+                            <Typography variant="body1" sx={infoHeading}>
+                                Brand:
+                            </Typography>
+                            <Typography variant="body1" sx={infoValue}>
+                                {product.brand}
+                            </Typography>
+                        </Box>
+                    </>
+                ) : (
+                    <Typography>No product details available.</Typography>
+                )}
+            </DialogContent>
+            <DialogActions sx={{ justifyContent: 'center' }}>
+                <Button onClick={onClose} variant="contained" color="primary">
+                    Close
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
 };
 
 export default ProductDetailModal;
+
+const infoContainer = {
+    display: 'flex',
+    alignItems: 'center',
+    paddingY: '10px',
+};
+
+const infoHeading = {
+    minWidth: '150px',
+    fontWeight: 'bold',
+};
+
+const infoValue = {
+    textAlign: 'left',
+};
