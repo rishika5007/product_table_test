@@ -1,21 +1,10 @@
 "use client";
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-
-// Schema with Zod
-const schema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
-
-//Form data type
-type FormData = z.infer<typeof schema>;
-
+import { schema ,FormData} from "../lib/validation";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -101,3 +90,5 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+

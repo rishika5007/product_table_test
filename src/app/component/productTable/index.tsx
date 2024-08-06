@@ -1,10 +1,13 @@
 'use client'
 import React, { useState } from 'react';
 import { useReactTable, ColumnDef, getCoreRowModel, flexRender } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Modal } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination } from '@mui/material';
 import styled from '@emotion/styled';
 import { Product } from '@components/app/lib/interface';
 import Image from 'next/image';
+import { fetchProductById } from '@components/app/lib/api';
+import ProductDetailModal from '../modal';
+import ProgressCircle from '../progress/progress';
 
 const StyledTable = styled(Table)`
   min-width: 650px;
@@ -22,6 +25,14 @@ const StyledTableCell = styled(TableCell)`
   }
 `;
 
+
+const TablePaginationStyled = styled(TablePagination)`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #fff; /* Ensure it blends with your table's background */
+`;
+
 interface ProductTableProps {
   data: Product[];
 }
@@ -29,6 +40,10 @@ interface ProductTableProps {
 const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const paginatedData = data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   const columns: ColumnDef<Product, any>[] = [
     {
@@ -42,6 +57,11 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
     {
       header: 'Description',
       accessorKey: 'description',
+      cell: info => (
+        <div className='truncate-text'>
+          {info.getValue() as string}
+        </div>
+      ),
     },
     {
       header: 'Category',
@@ -54,6 +74,9 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
     {
       header: 'Discount Percentage',
       accessorKey: 'discountPercentage',
+      cell: info => (
+        <ProgressCircle value={info.getValue() as number} size={40} />
+      ),
     },
     {
       header: 'Rating',
@@ -76,28 +99,48 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
       header: 'Actions',
       id: 'actions',
       cell: ({ row }) => (
-        <div
-          className='flex'
-          onClick={() => handleOpen(row.original)}
-        >
-          <Image src="/images/review.svg" alt='review' width={24} height={24} loading='lazy' />
-          <Image src="/images/tabler-icon-edit.svg" alt='edit' width={24} height={24} loading='lazy' />
-          <Image src="/images/tabler-icon-share.svg" alt='upload' width={24} height={24} loading='lazy' />
-          <Image src="/images/tabler-icon-trash.svg" alt='trash' width={24} height={24} loading='lazy' />
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <IconButton onClick={() => handleOpen(row.original?.id)}>
+            <Image src="/images/review.svg" alt='review' width={24} height={24} loading='lazy' />
+          </IconButton>
+          <IconButton>
+            <Image src="/images/tabler-icon-edit.svg" alt='edit' width={24} height={24} loading='lazy' />
+          </IconButton>
+          <IconButton>
+            <Image src="/images/tabler-icon-share.svg" alt='upload' width={24} height={24} loading='lazy' />
+          </IconButton>
+          <IconButton>
+            <Image src="/images/tabler-icon-trash.svg" alt='trash' width={24} height={24} loading='lazy' />
+          </IconButton>
         </div>
       ),
     },
   ];
 
   const { getHeaderGroups, getRowModel } = useReactTable({
-    data,
+    data: paginatedData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleOpen = (product: Product) => {
-    setSelectedProduct(product);
-    setOpen(true);
+  const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+
+  const handleOpen = async (id: number) => {
+    try {
+      const product = await fetchProductById(id);
+      setSelectedProduct(product);
+      setOpen(true);
+    } catch (error) {
+      console.error('Failed to fetch product details:', error);
+    }
   };
 
   const handleClose = () => {
@@ -108,7 +151,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className='relative'>
         <StyledTable>
           <TableHead>
             {getHeaderGroups().map(headerGroup => (
@@ -140,26 +183,16 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
             ))}
           </TableBody>
         </StyledTable>
+        <TablePaginationStyled
+          rowsPerPageOptions={[10, 25, 50]}
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleRowsPerPageChange}
+        />
       </TableContainer>
-
-      <Modal open={open} onClose={handleClose}>
-        <div style={{ padding: '20px', backgroundColor: 'white', margin: '100px auto', width: '50%' }}>
-          {selectedProduct && (
-            <>
-              <h1>{selectedProduct.title}</h1>
-              <p>{selectedProduct.description}</p>
-              <p>Price: ${selectedProduct.price}</p>
-              <p>Category: {selectedProduct.category}</p>
-              <p>Discount: {selectedProduct.discountPercentage}%</p>
-              <p>Rating: {selectedProduct.rating}</p>
-              <p>Stock: {selectedProduct.stock}</p>
-              <p>Tags: {selectedProduct.tags.join(', ')}</p>
-              <p>Brand: {selectedProduct.brand}</p>
-              <Button onClick={handleClose} variant="contained" color="secondary">Close</Button>
-            </>
-          )}
-        </div>
-      </Modal>
+      <ProductDetailModal open={open} onClose={handleClose} product={selectedProduct} />
     </>
   );
 };
