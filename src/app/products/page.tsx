@@ -55,7 +55,8 @@ export default async function ProductList() {
         <Sidebar />
         <div className="flex justify-center items-center bg-white rounded-2xl">
           {/* <ProductTable columns={columns} data={ProductData} /> */}
-          <ProductsPage/>
+          <ProductTable data={ProductData} />
+          {/* <ProductsPage/> */}
         </div>
       </>
     );
