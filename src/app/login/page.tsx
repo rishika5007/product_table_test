@@ -8,13 +8,17 @@ import {
   Typography,
   Box,
   CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { schema, FormData } from "../lib/validation";
 
 const LoginForm = () => {
-  const [loading, setLoading] = useState(false); // State to manage loading
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState(""); 
   const router = useRouter();
 
   // Initializing React Hook Form
@@ -25,6 +29,10 @@ const LoginForm = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+
+   const handleCloseSnackbar = () => {
+     setOpen(false);
+   };
 
   const onSubmit = async (data: FormData) => {
     setLoading(true); // Start loading
@@ -43,13 +51,15 @@ const LoginForm = () => {
 
       const result = await response.json();
 
-      if (response.status === 200) {
+       if (response.ok) {
         router.push("/products");
       } else {
-        alert(result.message || "Login failed!");
+        setMessage(result.message || "Login failed!");
+        setOpen(true);
       }
     } catch (error) {
-      alert("There was a problem with your submission ");
+      setMessage("There was a problem with your submission ");
+      setOpen(true);
     } finally {
       setLoading(false); // End loading
     }
@@ -63,6 +73,7 @@ const LoginForm = () => {
       router.push("/products");
     }
   }, [router]);
+  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -104,15 +115,18 @@ const LoginForm = () => {
             sx={{ mt: 3, mb: 2, position: "relative" }} // Add position relative
             disabled={loading} // Disable button while loading
           >
-            {loading ? (
-              <CircularProgress
-                size={24}
-              /> 
-            ) : (
-              "Login"
-            )}
+            {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>
         </Box>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert onClose={handleCloseSnackbar} severity="error">
+            {message}
+          </Alert>
+        </Snackbar>
       </Box>
     </Container>
   );
