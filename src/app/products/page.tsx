@@ -3,6 +3,8 @@ import ProductTable from '../component/productTable'
 import { ColumnDef } from '@tanstack/react-table';
 import { Product } from '../lib/interface';
 import { fetchProducts } from '../lib/api';
+import Header from '../component/header/Header';
+import Sidebar from '../component/sidebar';
 
 const columns: ColumnDef<Product, any>[] = [
     {
@@ -47,10 +49,14 @@ const columns: ColumnDef<Product, any>[] = [
 export default async function ProductList() {
     const ProductData = await getData()
     return (
-        <div className='flex justify-center items-center bg-white rounded-2xl'>
-            <ProductTable columns={columns} data={ProductData} />
+      <>
+        <Header />
+        <Sidebar />
+        <div className="flex justify-center items-center bg-white rounded-2xl">
+          <ProductTable columns={columns} data={ProductData} />
         </div>
-    )
+      </>
+    );
 }
 
 async function getData() {
