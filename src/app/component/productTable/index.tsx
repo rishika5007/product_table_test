@@ -12,6 +12,25 @@ import ProgressCircle from '../progress/progress';
 const StyledTable = styled(Table)`
   max-width: 1188px;
   overflow: auto;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar-color) var(--scroll-bar-bg-color);
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--scroll-bar-bg-color);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-bar-color);
+    border-radius: 20px;
+    border: 3px solid var(--scroll-bar-bg-color);
+  }
 `;
 
 
