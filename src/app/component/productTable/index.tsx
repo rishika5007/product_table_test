@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useReactTable, ColumnDef, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination } from '@mui/material';
 import styled from '@emotion/styled';
@@ -12,25 +12,25 @@ import ProgressCircle from '../progress/progress';
 const StyledTable = styled(Table)`
   max-width: 100%;
   overflow: auto;
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--scroll-bar-color) var(--scroll-bar-bg-color);
-  }
+  // * {
+  //   scrollbar-width: thin;
+  //   scrollbar-color: var(--scroll-bar-color) var(--scroll-bar-bg-color);
+  // }
 
-  /* Works on Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 12px;
-  }
+  // /* Works on Chrome, Edge, and Safari */
+  // *::-webkit-scrollbar {
+  //   width: 12px;
+  // }
 
-  *::-webkit-scrollbar-track {
-    background: var(--scroll-bar-bg-color);
-  }
+  // *::-webkit-scrollbar-track {
+  //   background: var(--scroll-bar-bg-color);
+  // }
 
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--scroll-bar-color);
-    border-radius: 20px;
-    border: 3px solid var(--scroll-bar-bg-color);
-  }
+  // *::-webkit-scrollbar-thumb {
+  //   background-color: var(--scroll-bar-color);
+  //   border-radius: 20px;
+  //   border: 3px solid var(--scroll-bar-bg-color);
+  // }
 `;
 
 const StyledTableRow = styled(TableRow) <{ isEven: boolean }>`
@@ -59,122 +59,134 @@ interface ProductTableProps {
 }
 
 const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+const [open, setOpen] = useState(false);
+const [page, setPage] = useState(0);
+const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const paginatedData = data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+const paginatedData = data.slice(
+  page * rowsPerPage,
+  page * rowsPerPage + rowsPerPage
+);
 
-  const columns: ColumnDef<Product, any>[] = [
-    {
-      header: 'ID',
-      accessorKey: 'id',
-    },
-    {
-      header: 'Title',
-      accessorKey: 'title',
-    },
-    {
-      header: 'Description',
-      accessorKey: 'description',
-      cell: info => (
-        <div className='truncate-text'>
-          {info.getValue() as string}
-        </div>
-      ),
-    },
-    {
-      header: 'Category',
-      accessorKey: 'category',
-    },
-    {
-      header: 'Price',
-      accessorKey: 'price',
-    },
-    {
-      header: 'Discount Percentage',
-      accessorKey: 'discountPercentage',
-      cell: info => (
-        <ProgressCircle value={info.getValue() as number} size={40} />
-      ),
-    },
-    {
-      header: 'Rating',
-      accessorKey: 'rating',
-    },
-    {
-      header: 'Stock',
-      accessorKey: 'stock',
-    },
-    {
-      header: 'Tags',
-      accessorKey: 'tags',
-      cell: info => info.getValue().join(', '),
-    },
-    {
-      header: 'Brand',
-      accessorKey: 'brand',
-    },
-    {
-      header: 'Actions',
-      id: 'actions',
-      size: 200,
-      cell: ({ row }) => (
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <IconButton onClick={() => handleOpen(row.original?.id)}>
-            <Image src="/images/review.svg" alt='review' width={24} height={24} loading='lazy' />
-          </IconButton>
-          <IconButton>
-            <Image src="/images/tabler-icon-edit.svg" alt='edit' width={24} height={24} loading='lazy' />
-          </IconButton>
-          <IconButton>
-            <Image src="/images/tabler-icon-share.svg" alt='upload' width={24} height={24} loading='lazy' />
-          </IconButton>
-          <IconButton>
-            <Image src="/images/tabler-icon-trash.svg" alt='trash' width={24} height={24} loading='lazy' />
-          </IconButton>
-        </div>
-      ),
-    },
-  ];
+const columns: ColumnDef<Product, any>[] = [
+  { header: "ID", accessorKey: "id" },
+  { header: "Title", accessorKey: "title" },
+  {
+    header: "Description",
+    accessorKey: "description",
+    cell: (info) => (
+      <div className="truncate-text">{info.getValue() as string}</div>
+    ),
+  },
+  { header: "Category", accessorKey: "category" },
+  { header: "Price", accessorKey: "price" },
+  {
+    header: "Discount Percentage",
+    accessorKey: "discountPercentage",
+    cell: (info) => (
+      <ProgressCircle value={info.getValue() as number} size={40} />
+    ),
+  },
+  { header: "Rating", accessorKey: "rating" },
+  { header: "Stock", accessorKey: "stock" },
+  {
+    header: "Tags",
+    accessorKey: "tags",
+    cell: (info) => info.getValue().join(", "),
+  },
+  { header: "Brand", accessorKey: "brand" },
+  {
+    header: "Actions",
+    id: "actions",
+    size: 200,
+    cell: ({ row }) => (
+      <div style={{ display: "flex", gap: "8px" }}>
+        <IconButton onClick={() => handleOpen(row.original?.id)}>
+          <Image
+            src="/images/review.svg"
+            alt="review"
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </IconButton>
+        <IconButton>
+          <Image
+            src="/images/tabler-icon-edit.svg"
+            alt="edit"
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </IconButton>
+        <IconButton>
+          <Image
+            src="/images/tabler-icon-share.svg"
+            alt="upload"
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </IconButton>
+        <IconButton>
+          <Image
+            src="/images/tabler-icon-trash.svg"
+            alt="trash"
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </IconButton>
+      </div>
+    ),
+  },
+];
 
-  const { getHeaderGroups, getRowModel } = useReactTable({
-    data: paginatedData,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+const { getHeaderGroups, getRowModel } = useReactTable({
+  data: paginatedData,
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+});
 
-  const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
-  };
+const handlePageChange = (
+  event: React.MouseEvent<HTMLButtonElement> | null,
+  newPage: number
+) => {
+  setPage(newPage);
+};
 
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 5));
-    setPage(0);
-  };
+const handleRowsPerPageChange = (
+  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  setRowsPerPage(parseInt(event.target.value, 10));
+  setPage(0);
+};
 
+const handleOpen = async (id: number) => {
+  try {
+    const product = await fetchProductById(id);
+    setSelectedProduct(product);
+    setOpen(true);
+  } catch (error) {
+    console.error("Failed to fetch product details:", error);
+  }
+};
 
-  const handleOpen = async (id: number) => {
-    try {
-      const product = await fetchProductById(id);
-      setSelectedProduct(product);
-      setOpen(true);
-    } catch (error) {
-      console.error('Failed to fetch product details:', error);
-    }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedProduct(null);
-  };
+const handleClose = () => {
+  setOpen(false);
+  // setSelectedProduct(null);
+};
 
 
   return (
     <>
-      <StyledTable>
-        <TableContainer component={Paper} className="relative" sx={{maxHeight:"452px"}}>
+      <TableContainer
+        component={Paper}
+        className="relative"
+        sx={{ maxHeight: "452px" }}
+      >
+        <StyledTable>
           <TableHead>
             {getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -213,7 +225,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
               </StyledTableRow>
             ))}
           </TableBody>
-        {/* <TablePaginationStyled
+          {/* <TablePaginationStyled
           rowsPerPageOptions={[10, 25, 50]}
           count={data.length}
           rowsPerPage={rowsPerPage}
@@ -221,9 +233,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleRowsPerPageChange}
           /> */}
+        </StyledTable>
       </TableContainer>
-          </StyledTable>
-      <ProductDetailModal open={open} onClose={handleClose} product={selectedProduct} />
+      <ProductDetailModal
+        open={open}
+        onClose={handleClose}
+        product={selectedProduct}
+      />
     </>
   );
 };

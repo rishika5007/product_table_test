@@ -1,12 +1,8 @@
-// components/Sidebar.js
-
-"use client";
-
-import React from "react";
+"use client"
+import React, { useCallback } from "react";
 import {
   Box,
   Typography,
-  IconButton,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -17,24 +13,22 @@ import {
 } from "@mui/material";
 import {
   ExpandMore as ExpandMoreIcon,
-  Dashboard as DashboardIcon,
   Settings as SettingsIcon,
   People as PeopleIcon,
-  Menu as MenuIcon,
   Info as InfoIcon,
   LocalOffer as LocalOfferIcon,
-  Assessment as AssessmentIcon,
-  BarChart as BarChartIcon,
 } from "@mui/icons-material";
 import Image from "next/image";
 
 const Sidebar = () => {
   const [expanded, setExpanded] = React.useState<string | false>("panel2"); // Set default to 'panel2'
 
-  const handleChange =
+  const handleChange = useCallback(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
-    };
+    },
+    []
+  );
 
   return (
     <Box
@@ -45,7 +39,7 @@ const Sidebar = () => {
         display: "flex",
         flexDirection: "column",
         borderRight: "1px solid #ddd",
-        pr:"20px"
+        pr: "20px",
       }}
     >
       {/* Accordion Item 1 */}
@@ -87,7 +81,6 @@ const Sidebar = () => {
               width={23}
               height={24}
             />
-
             <Typography>Analytics</Typography>
           </Box>
         </AccordionSummary>
@@ -149,7 +142,6 @@ const Sidebar = () => {
         >
           <Box sx={{ display: "flex", columnGap: "12px" }}>
             <Image src="/images/earth.svg" alt="bell" width={23} height={24} />
-
             <Typography>Project</Typography>
           </Box>
         </AccordionSummary>
@@ -162,7 +154,6 @@ const Sidebar = () => {
                 width={23}
                 height={24}
               />
-
               <ListItemText primary="Add Project" />
             </ListItem>
             <ListItem sx={{ display: "flex", columnGap: "30px" }}>
@@ -172,7 +163,6 @@ const Sidebar = () => {
                 width={23}
                 height={24}
               />
-
               <ListItemText primary="Project Table" />
             </ListItem>
             <ListItem sx={{ display: "flex", columnGap: "30px" }}>
@@ -182,7 +172,6 @@ const Sidebar = () => {
                 width={23}
                 height={24}
               />
-
               <ListItemText primary="Deleted" />
             </ListItem>
           </List>
@@ -262,7 +251,6 @@ const Sidebar = () => {
         sx={{
           boxShadow: "none",
           borderBottom: "1px solid #ddd",
-
           "&:before": {
             display: "none",
           },
@@ -285,8 +273,8 @@ const Sidebar = () => {
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3a-content"
-          id="panel3a-header"
+          aria-controls="panel4a-content"
+          id="panel4a-header"
         >
           <Box sx={{ display: "flex", columnGap: "12px" }}>
             <Image
@@ -322,7 +310,7 @@ const Sidebar = () => {
         </AccordionDetails>
       </Accordion>
 
-      {/* Accordion Item 5*/}
+      {/* Accordion Item 5 */}
       <Accordion
         expanded={expanded === "panel5"}
         onChange={handleChange("panel5")}
@@ -351,8 +339,8 @@ const Sidebar = () => {
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3a-content"
-          id="panel3a-header"
+          aria-controls="panel5a-content"
+          id="panel5a-header"
         >
           <Box sx={{ display: "flex", columnGap: "12px" }}>
             <Image

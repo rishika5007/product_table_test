@@ -24,11 +24,14 @@ import {
   ExpandMore as ExpandMoreIcon,
 } from "@mui/icons-material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [searchDropdown, setSearchDropdown] = React.useState(null);
+  const router = useRouter();
+
 
   const handleMenuClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +47,24 @@ const Header = () => {
 
   const handleSearchDropdownClose = () => {
     setSearchDropdown(null);
+  };
+
+  const logoutHandler = async () => {
+    try {
+      // Call the logout API route
+      const response = await fetch("/api/logout", {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        // Redirect to login page
+        router.push("/login");
+      } else {
+        alert("Logout failed. Please try again.");
+      }
+    } catch (error) {
+      alert("There was a problem logging out.");
+    }
   };
 
   return (
@@ -188,10 +209,12 @@ const Header = () => {
                 height: "36px",
                 width: "36px",
                 borderRadius: "8px",
+                cursor:"pointer"
               }}
               display="flex"
               justifyContent="center"
               alignItems="center"
+              onClick={logoutHandler}
             >
               <Image
                 src="/images/logout.svg"

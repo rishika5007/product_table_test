@@ -4,15 +4,23 @@ import { fetchProducts } from '../lib/api';
 import Header from '../component/header/Header';
 import Sidebar from '../component/sidebar';
 import { Box, Typography, Button } from '@mui/material';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function ProductList() {
     const ProductData = await getData()
+    //  const cookieStore = cookies();
+    //  const token = cookieStore.get("authToken");
+
+    //  if (!token) {
+    //    // Redirect to login if no token is present
+    //    redirect("/login");
+    //  }
     return (
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          marginRight: "10px",
         }}
       >
         <Header />
