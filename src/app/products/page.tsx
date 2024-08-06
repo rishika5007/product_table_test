@@ -5,6 +5,7 @@ import { Product } from '../lib/interface';
 import { fetchProducts } from '../lib/api';
 import Header from '../component/header/Header';
 import Sidebar from '../component/sidebar';
+import ProductsPage from '../product/page';
 
 const columns: ColumnDef<Product, any>[] = [
     {
@@ -53,7 +54,8 @@ export default async function ProductList() {
         <Header />
         <Sidebar />
         <div className="flex justify-center items-center bg-white rounded-2xl">
-          <ProductTable columns={columns} data={ProductData} />
+          {/* <ProductTable columns={columns} data={ProductData} /> */}
+          <ProductsPage/>
         </div>
       </>
     );
