@@ -10,8 +10,11 @@ import ProductDetailModal from '../modal';
 import ProgressCircle from '../progress/progress';
 
 const StyledTable = styled(Table)`
-  min-width: 650px;
+  max-width: 1188px;
+  overflow: auto;
 `;
+
+
 
 const StyledTableRow = styled(TableRow) <{ isEven: boolean }>`
   background-color: ${({ isEven }) => (isEven ? '#F5F5F5' : '#ffffff')};
@@ -151,20 +154,29 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
 
   return (
     <>
-      <TableContainer component={Paper} className='relative'>
-        <StyledTable>
+      <StyledTable>
+        <TableContainer component={Paper} className="relative" sx={{maxHeight:"452px"}}>
           <TableHead>
-            {getHeaderGroups().map(headerGroup => (
+            {getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
-                  <TableCell sx={{
-                    color: 'success.dark',
-                    fontWeight: 'bold',
-                    fontSize: 14,
-                  }} key={header.id}>
-                    <span className='flex'>
+                {headerGroup.headers.map((header) => (
+                  <TableCell
+                    sx={{
+                      color: "success.dark",
+                      fontWeight: "bold",
+                      fontSize: 14,
+                    }}
+                    key={header.id}
+                  >
+                    <span className="flex">
                       {header.column.columnDef.header as string}
-                      <Image src="/images/dot_menu.svg" width={24} height={24} alt='more icon' loading='lazy' />
+                      <Image
+                        src="/images/dot_menu.svg"
+                        width={24}
+                        height={24}
+                        alt="more icon"
+                        loading="lazy"
+                      />
                     </span>
                   </TableCell>
                 ))}
@@ -174,7 +186,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
           <TableBody>
             {getRowModel().rows.map((row, rowIndex) => (
               <StyledTableRow key={row.id} isEven={rowIndex % 2 === 0}>
-                {row.getVisibleCells().map(cell => (
+                {row.getVisibleCells().map((cell) => (
                   <StyledTableCell key={cell.id} sx={{ paddingY: "66.5px" }}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </StyledTableCell>
@@ -182,17 +194,22 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
               </StyledTableRow>
             ))}
           </TableBody>
-        </StyledTable>
-        <TablePaginationStyled
-          rowsPerPageOptions={[10, 25, 50]}
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleRowsPerPageChange}
-        />
-      </TableContainer>
-      <ProductDetailModal open={open} onClose={handleClose} product={selectedProduct} />
+          {/* <TablePaginationStyled
+            rowsPerPageOptions={[10, 25, 50]}
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
+          /> */}
+        </TableContainer>
+      </StyledTable>
+
+      <ProductDetailModal
+        open={open}
+        onClose={handleClose}
+        product={selectedProduct}
+      />
     </>
   );
 };
