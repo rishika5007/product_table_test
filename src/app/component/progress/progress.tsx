@@ -5,8 +5,6 @@ import { styled } from '@mui/system';
 interface ProgressCircleProps {
   value: number;
   size?: number;
-  outerColor?: string;
-  innerColor?: string;
   showPercentage?: boolean;
 }
 
@@ -17,13 +15,32 @@ const Container = styled('div')({
   justifyContent: 'center',
 });
 
+const getColors = (value: number) => {
+  if (value <= 50) {
+    return {
+      outerColor: '#F44336', 
+      innerColor: '#FFCDD2', 
+    };
+  } else if (value <= 80) {
+    return {
+      outerColor: '#FFEB3B', 
+      innerColor: '#FFF9C4', 
+    };
+  } else {
+    return {
+      outerColor: '#4CAF50', 
+      innerColor: '#C8E6C9', 
+    };
+  }
+};
+
 const ProgressCircle: React.FC<ProgressCircleProps> = ({
   value,
   size = 40,
-  outerColor = '#F44336',
-  innerColor = '#FFAB91',
   showPercentage = true,
 }) => {
+  const { outerColor, innerColor } = getColors(value);
+
   return (
     <Container>
       <CircularProgress

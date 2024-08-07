@@ -1,8 +1,7 @@
-'use client'
+'use client';
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Card, CardContent, Rating } from '@mui/material';
 import { Product } from '@components/app/lib/interface';
-import ProgressCircle from '../progress/progress';
 
 interface ProductDetailModalProps {
     open: boolean;
@@ -10,7 +9,12 @@ interface ProductDetailModalProps {
     product: Product | null;
 }
 
+function formatDate(date: Date): string {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
 const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, product }) => {
+
     return (
         <Dialog
             open={open}
@@ -26,71 +30,43 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, 
             <DialogTitle sx={infoHeading}>
                 {product ? product.title : 'Product Details'}
                 <Typography variant="body1" sx={infoValue}>
-                    {product ? product?.description : ''}
+                    {product ? product.description : ''}
                 </Typography>
             </DialogTitle>
-            <DialogContent dividers>
-                {product ? (
-                    <>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Category:
-                            </Typography>
-                            <Typography variant="body1" sx={infoValue}>
-                                {product.category}
-                            </Typography>
-                        </Box>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Price:
-                            </Typography>
-                            <Typography variant="body1" sx={infoValue}>
-                                ${product.price}
-                            </Typography>
-                        </Box>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Discount:
-                            </Typography>
-                            <Box sx={infoValue}>
-                                <ProgressCircle value={product?.discountPercentage} size={40} />
-                            </Box>
-                        </Box>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Rating:
-                            </Typography>
-                            <Typography variant="body1" sx={infoValue}>
-                                {product.rating}
-                            </Typography>
-                        </Box>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Stock:
-                            </Typography>
-                            <Typography variant="body1" sx={infoValue}>
-                                {product.stock}
-                            </Typography>
-                        </Box>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Tags:
-                            </Typography>
-                            <Typography variant="body1" sx={infoValue}>
-                                {product.tags.join(' , ')}
-                            </Typography>
-                        </Box>
-                        <Box sx={infoContainer}>
-                            <Typography variant="body1" sx={infoHeading}>
-                                Brand:
-                            </Typography>
-                            <Typography variant="body1" sx={infoValue}>
-                                {product.brand}
-                            </Typography>
-                        </Box>
-                    </>
+            <DialogContent dividers sx={infoContainer}>
+                {product && product.reviews.length > 0 ? (
+                    product.reviews.map((review, index) => (
+                        <Card key={index} sx={{ marginBottom: '16px' }}>
+                            <CardContent>
+                                <Typography variant="h6" sx={infoHeading}>
+                                    Review {index + 1}
+                                </Typography>
+                                <Typography variant="body1" sx={infoValue}>
+                                    <strong>{'Review Name: '}</strong>{review.reviewerName || 'NA'}
+                                </Typography>
+                                <Typography variant="body1" sx={infoValue}>
+                                    <strong>{'Review Email: '}</strong>{review.reviewerEmail || 'NA'}
+                                </Typography>
+                                <Typography variant="body1" sx={infoValue}>
+                                    <strong>{'Rating: '}</strong>
+                                    <Rating
+                                        name={`rating-${index}`}
+                                        value={review.rating || 0}
+                                        readOnly
+                                        precision={0.5}
+                                    />
+                                </Typography>
+                                <Typography variant="body1" sx={infoValue}>
+                                    <strong>{'Date: '}</strong>{formatDate(new Date(review.date)) || 'NA'}
+                                </Typography>
+                                <Typography variant="body1" sx={infoValue}>
+                                    <strong>{'Comment: '}</strong>{review.comment || 'NA'}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    ))
                 ) : (
-                    <Typography>No product details available.</Typography>
+                    <Typography>No reviews available.</Typography>
                 )}
             </DialogContent>
             <DialogActions sx={{ justifyContent: 'center' }}>
@@ -104,17 +80,37 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, 
 
 export default ProductDetailModal;
 
-const infoContainer = {
-    display: 'flex',
-    alignItems: 'center',
+const infoHeading = {
+    minWidth: '150px',
+    textAlign: 'center',
+    fontWeight: 'bold',
     paddingY: '10px',
 };
 
-const infoHeading = {
-    minWidth: '150px',
-    fontWeight: 'bold',
+const infoValue = {
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    paddingY: '5px',
+    paddingLeft: '2px',
+    alignItems: 'center',
+    gap: '8px',
 };
 
-const infoValue = {
-    textAlign: 'left',
-};
+const infoContainer = {
+    overflowX: "hidden",
+    overflowY: "auto",
+    '&::-webkit-scrollbar': {
+        width: '8px',
+    },
+    '&::-webkit-scrollbar-track': {
+        background: '#f1f1f1',
+    },
+    '&::-webkit-scrollbar-thumb': {
+        background: '#888',
+        borderRadius: '10px',
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
+        background: '#555',
+    }
+}

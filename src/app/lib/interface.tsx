@@ -47,3 +47,7 @@ export interface Review {
   export interface FetchProductsResponse {
     products: Product[];
   }
+
+  export interface ProductTableProps {
+    data: Product[];
+  }
