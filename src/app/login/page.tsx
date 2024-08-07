@@ -52,6 +52,7 @@ const LoginForm = () => {
       const result = await response.json();
 
        if (response.ok) {
+        localStorage.setItem("authToken", result.token);
         router.push("/products");
       } else {
         setMessage(result.message || "Login failed!");

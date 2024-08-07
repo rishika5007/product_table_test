@@ -50,21 +50,8 @@ const Header = () => {
   };
 
   const logoutHandler = async () => {
-    try {
-      // Call the logout API route
-      const response = await fetch("/api/logout", {
-        method: "GET",
-      });
-
-      if (response.ok) {
-        // Redirect to login page
-        router.push("/login");
-      } else {
-        alert("Logout failed. Please try again.");
-      }
-    } catch (error) {
-      alert("There was a problem logging out.");
-    }
+    localStorage.removeItem("authToken");
+    router.push("/")
   };
 
   return (
