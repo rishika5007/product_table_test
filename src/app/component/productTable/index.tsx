@@ -14,12 +14,17 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns: ColumnDef<Product, any>[] = [
     { header: "ID", accessorKey: "id" },
-    { header: "Title", accessorKey: "title" },
+    {
+      header: "Title", accessorKey: "title",
+      cell: (info) => (
+        <div className="truncate-text">{info.getValue() as string}</div>
+      ),
+    },
     {
       header: "Description",
       accessorKey: "description",
@@ -30,11 +35,12 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
     { header: "Category", accessorKey: "category" },
     { header: "Price", accessorKey: "price" },
     {
-      header: "Discount Percentage",
+      header: "Discount(%)",
       accessorKey: "discountPercentage",
       cell: (info) => (
-        <ProgressCircle value={info.getValue() as number} size={40} />
-      ),
+        <div className="flex justify-center items-center">
+          <ProgressCircle value={info.getValue() as number} size={40} />
+        </div>),
     },
     { header: "Rating", accessorKey: "rating" },
     { header: "Stock", accessorKey: "stock" },
@@ -178,7 +184,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
             {getRowModel().rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => (
               <StyledTableRow key={row.id} isEven={rowIndex % 2 === 0}>
                 {row.getVisibleCells().map((cell) => (
-                  <StyledTableCell key={cell.id} sx={{ paddingY: "66.5px" }}>
+                  <StyledTableCell key={cell.id} sx={{ paddingY: "26.5px" }}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </StyledTableCell>
                 ))}
@@ -212,21 +218,21 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
 export default ProductTable;
 
 const scrollbarContainer = {
-    overflowY: "hidden",
-    overflowX: "auto",
-    '&::-webkit-scrollbar': {
-      height: '4px',
-    },
-    '&::-webkit-scrollbar-track': {
-      background: '#f1f1f1',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      background: '#888',
-      borderRadius: '10px',
-    },
-    '&::-webkit-scrollbar-thumb:hover': {
-      background: '#555',
-    }
+  overflowY: "hidden",
+  overflowX: "auto",
+  '&::-webkit-scrollbar': {
+    height: '4px',
+  },
+  '&::-webkit-scrollbar-track': {
+    background: '#f1f1f1',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: '#888',
+    borderRadius: '10px',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    background: '#555',
+  }
 }
 
 const StyledTable = styled(Table)`
