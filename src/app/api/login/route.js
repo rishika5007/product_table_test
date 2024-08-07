@@ -22,17 +22,8 @@ export async function POST(request) {
             throw new Error('Failed to authenticate');
         }
 
-        if (result.token) {
-            // Set the cookie with the token
-            setCookie(null, 'authToken', result.token, {
-                maxAge: 30 * 24 * 60 * 60, // 30 days
-                path: '/',
-            });
-
-            return NextResponse.json({ message: "Login successful!" });
-        } else {
-            return NextResponse.json({ message: "Authentication failed" }, { status: 401 });
-        }
+        const data = await response.json();
+        return NextResponse.json(data);
 
     } catch (error) {
         return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });

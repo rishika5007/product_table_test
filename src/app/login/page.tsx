@@ -61,7 +61,7 @@ const LoginForm = () => {
       setMessage("There was a problem with your submission ");
       setOpen(true);
     } finally {
-      setLoading(false); // End loading
+      setLoading(false); 
     }
   };
 
@@ -72,7 +72,7 @@ const LoginForm = () => {
     if (token) {
       router.push("/products");
     }
-  }, [router]);
+  }, []);
   
 
   return (
@@ -112,8 +112,8 @@ const LoginForm = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, position: "relative" }} // Add position relative
-            disabled={loading} // Disable button while loading
+            sx={{ mt: 3, mb: 2, position: "relative" }}
+            disabled={loading} 
           >
             {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>

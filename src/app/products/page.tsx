@@ -3,9 +3,11 @@ import ProductTable from '../component/productTable'
 import { fetchProducts } from '../lib/api';
 import Header from '../component/header/Header';
 import Sidebar from '../component/sidebar';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, TextField, InputAdornment } from '@mui/material';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import Image from 'next/image';
+import SearchIcon from "@mui/icons-material/Search";
 
 export default async function ProductList() {
     const ProductData = await getData()
@@ -62,7 +64,6 @@ export default async function ProductList() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    width: "108px",
                     height: "30px",
                     fontSize: "12px",
                     lineHeight: "14px",
@@ -70,6 +71,59 @@ export default async function ProductList() {
                 >
                   Add project
                 </Button>
+                <Box
+                  sx={{
+                    display: "flex",
+                    columnGap: "18px",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    placeholder=""
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "4px",
+                        border: "none",
+                        "& fieldset": {
+                          border: "none",
+                        },
+                      },
+                      "& .MuiOutlinedInput-input": {
+                        padding: "0 8px",
+                      },
+                      "& .MuiInputBase-input": {
+                        padding: "0",
+                      },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Image
+                    src="/images/filter.svg"
+                    alt="filter"
+                    height={24}
+                    width={24}
+                  />
+                  <Image
+                    src="images/columns.svg"
+                    alt="columns"
+                    height={24}
+                    width={24}
+                  />
+                  <Image
+                    src="images/dashboard-zoom.svg"
+                    alt="zoom"
+                    height={24}
+                    width={24}
+                  />
+                </Box>
               </Box>
               <Box sx={{ marginLeft: "20px" }}>
                 <ProductTable data={ProductData} />

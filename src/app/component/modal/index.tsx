@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
 import { Product } from '@components/app/lib/interface';
 import ProgressCircle from '../progress/progress';
@@ -11,6 +11,9 @@ interface ProductDetailModalProps {
 }
 
 const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, product }) => {
+    const handleClose = useCallback(() => {
+      onClose();
+    }, [onClose]);
     return (
         <Dialog
             open={open}
@@ -94,7 +97,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, 
                 )}
             </DialogContent>
             <DialogActions sx={{ justifyContent: 'center' }}>
-                <Button onClick={onClose} variant="contained" color="primary">
+                <Button onClick={handleClose} variant="contained" color="primary">
                     Close
                 </Button>
             </DialogActions>
