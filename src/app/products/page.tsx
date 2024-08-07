@@ -8,6 +8,8 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import SearchIcon from "@mui/icons-material/Search";
+import Link from 'next/link';
+import { Home as HomeIcon } from "@mui/icons-material";
 
 export default async function ProductList() {
     const ProductData = await getData()
@@ -32,10 +34,28 @@ export default async function ProductList() {
             sx={{
               flexGrow: 1,
               overflow: "auto",
-              marginTop: "76px",
+              marginTop: "20px",
               marginInline: "20px",
             }}
           >
+            <Box
+              sx={{
+                backgroundColor: "#fff",
+                marginBottom: "16px",
+                padding: "10px",
+                border: "1px solid #fff",
+                borderRadius: "12px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              Projects
+              <Box sx={{ display: "flex" }}>
+                <Link href="/" color="inherit">
+                  <HomeIcon /> / projects
+                </Link>
+              </Box>
+            </Box>
             <Box
               sx={{
                 background: "#fff",
