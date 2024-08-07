@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useReactTable, ColumnDef, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination } from '@mui/material';
 import styled from '@emotion/styled';
@@ -33,7 +33,10 @@ const StyledTable = styled(Table)`
   // }
 `;
 
-const StyledTableRow = styled(TableRow) <{ isEven: boolean }>`
+
+const StyledTableRow = styled(TableRow, {
+  shouldForwardProp: (prop) => prop !== 'isEven',
+})<{ isEven: boolean }>`
   background-color: ${({ isEven }) => (isEven ? '#F5F5F5' : '#ffffff')};
   cursor: pointer;
 `;
@@ -61,13 +64,6 @@ interface ProductTableProps {
 const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
 const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 const [open, setOpen] = useState(false);
-const [page, setPage] = useState(0);
-const [rowsPerPage, setRowsPerPage] = useState(10);
-
-const paginatedData = data.slice(
-  page * rowsPerPage,
-  page * rowsPerPage + rowsPerPage
-);
 
 const columns: ColumnDef<Product, any>[] = [
   { header: "ID", accessorKey: "id" },
@@ -111,57 +107,17 @@ const columns: ColumnDef<Product, any>[] = [
             loading="lazy"
           />
         </IconButton>
-        <IconButton>
-          <Image
-            src="/images/tabler-icon-edit.svg"
-            alt="edit"
-            width={24}
-            height={24}
-            loading="lazy"
-          />
-        </IconButton>
-        <IconButton>
-          <Image
-            src="/images/tabler-icon-share.svg"
-            alt="upload"
-            width={24}
-            height={24}
-            loading="lazy"
-          />
-        </IconButton>
-        <IconButton>
-          <Image
-            src="/images/tabler-icon-trash.svg"
-            alt="trash"
-            width={24}
-            height={24}
-            loading="lazy"
-          />
-        </IconButton>
+      
       </div>
     ),
   },
 ];
 
 const { getHeaderGroups, getRowModel } = useReactTable({
-  data: paginatedData,
+  data,
   columns,
   getCoreRowModel: getCoreRowModel(),
 });
-
-const handlePageChange = (
-  event: React.MouseEvent<HTMLButtonElement> | null,
-  newPage: number
-) => {
-  setPage(newPage);
-};
-
-const handleRowsPerPageChange = (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-) => {
-  setRowsPerPage(parseInt(event.target.value, 10));
-  setPage(0);
-};
 
 const handleOpen = async (id: number) => {
   try {
@@ -175,7 +131,7 @@ const handleOpen = async (id: number) => {
 
 const handleClose = () => {
   setOpen(false);
-  // setSelectedProduct(null);
+  setSelectedProduct(null);
 };
 
 
@@ -225,14 +181,6 @@ const handleClose = () => {
               </StyledTableRow>
             ))}
           </TableBody>
-          {/* <TablePaginationStyled
-          rowsPerPageOptions={[10, 25, 50]}
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleRowsPerPageChange}
-          /> */}
         </StyledTable>
       </TableContainer>
       <ProductDetailModal

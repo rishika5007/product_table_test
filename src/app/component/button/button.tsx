@@ -1,5 +1,3 @@
-// components/button/CustomButton.tsx
-
 import React from 'react';
 import { Button } from '@mui/material';
 import  styled  from '@emotion/styled';
@@ -7,9 +5,9 @@ import  styled  from '@emotion/styled';
 interface CustomButtonProps {
   label: string;
   type?: 'button' | 'submit' | 'reset';
-  color?: string; // Accept any CSS color value
-  customStyles?: { [key: string]: string | number }; // Custom styles as key-value pairs
-  onClick?: () => void; // Define onClick
+  color?: string; 
+  customStyles?: { [key: string]: string | number }; 
+  onClick?: () => void; 
 }
 
 const StyledButton = styled(Button)<{ customStyles?: { [key: string]: string | number }; color?: string }>`
@@ -23,7 +21,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, type = 'button', col
       type={type}
       style={{ backgroundColor: color }}
       customStyles={customStyles}
-      onClick={onClick} // Apply the onClick prop
+      onClick={onClick} 
       {...rest}
     >
       {label}

@@ -12,9 +12,9 @@ import Link from 'next/link';
 import { Home as HomeIcon } from "@mui/icons-material";
 
 export default async function ProductList() {
-    const ProductData = await getData()
-    //  const cookieStore = cookies();
-    //  const token = cookieStore.get("authToken");
+  const ProductData = await getData()
+  //  const cookieStore = cookies();
+  //  const token = cookieStore.get("authToken");
 
     //  if (!token) {
     //    // Redirect to login if no token is present
@@ -156,6 +156,6 @@ export default async function ProductList() {
 }
 
 async function getData() {
-    const res = await fetchProducts()
-    return res;
+  const res = await fetchProducts()
+  return res;
 }
