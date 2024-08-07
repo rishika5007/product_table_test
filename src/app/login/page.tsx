@@ -67,13 +67,11 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("authToken="));
+    const token = localStorage.getItem("authToken");
     if (token) {
-      router.push("/products");
+      router.push("/products"); 
     }
-  }, []);
+  }, [router]);
   
 
   return (

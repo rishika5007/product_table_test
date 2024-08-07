@@ -25,6 +25,7 @@ import {
 } from "@mui/icons-material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Sidebar from "../sidebar";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -55,9 +56,10 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ background: "#fff" }}>
+    <AppBar position="fixed" sx={{ background: "#fff" }}>
       <Toolbar>
-        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+        <Sidebar />
+        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center", paddingBlock:"15px" }}>
           {/* Logo on the Left */}
           <Box sx={{ display: "flex", columnGap: "104px" }}>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -69,24 +71,7 @@ const Header = () => {
               />
             </Typography>
 
-            <Box
-              sx={{
-                backgroundColor: "#DAE7F9",
-                height: "36px",
-                width: "36px",
-                borderRadius: "8px",
-              }}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Image
-                src="/images/dashes.svg"
-                alt="bell"
-                width={13}
-                height={15}
-              />
-            </Box>
+            
           </Box>
 
           {/* Search Bar with Dropdown */}
@@ -99,7 +84,7 @@ const Header = () => {
             sx={{
               width: 371,
               height: 48,
-              marginLeft: "20px",
+              marginLeft: "180px",
               "& .MuiOutlinedInput-root": {
                 height: "100%",
                 borderRadius: "12px", // Rounded corners
