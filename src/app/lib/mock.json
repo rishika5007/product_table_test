@@ -1,0 +1,94 @@
+[
+    {
+      "id": "panel1",
+      "title": "Analytics",
+      "icon": "/images/analytics.svg",
+      "items": [
+        {
+          "icon": "/images/add-project.svg",
+          "text": "Add Analytics"
+        },
+        {
+          "icon": "/images/earth.svg",
+          "text": "Analytics Table"
+        },
+        {
+          "icon": "/images/delete.svg",
+          "text": "Deleted"
+        }
+      ]
+    },
+    {
+      "id": "panel2",
+      "title": "Project",
+      "icon": "/images/earth.svg",
+      "items": [
+        {
+          "icon": "/images/add-project.svg",
+          "text": "Add Project"
+        },
+        {
+          "icon": "/images/earth.svg",
+          "text": "Project Table"
+        },
+        {
+          "icon": "/images/delete.svg",
+          "text": "Deleted"
+        }
+      ]
+    },
+    {
+      "id": "panel3",
+      "title": "Property",
+      "icon": "/images/property.svg",
+      "items": [
+        {
+          "icon": "/images/add-project.svg",
+          "text": "Add property"
+        },
+        {
+          "icon": "/images/earth.svg",
+          "text": "property Table"
+        },
+        {
+          "icon": "/images/delete.svg",
+          "text": "Deleted"
+        }
+      ]
+    },
+    {
+      "id": "panel4",
+      "title": "Problem Reports",
+      "icon": "/images/problem.svg",
+      "items": [
+        {
+          "icon": "/images/add-project.svg",
+          "text": "Add Problem"
+        },
+        {
+          "icon": "/images/earth.svg",
+          "text": "Problem Table"
+        },
+        {
+          "icon": "/images/delete.svg",
+          "text": "Deleted"
+        }
+      ]
+    },
+    {
+      "id": "panel5",
+      "title": "Settings",
+      "icon": "/images/sidebar-settings.svg",
+      "items": [
+        {
+          "icon": "/images/earth.svg",
+          "text": "Profile Settings"
+        },
+        {
+          "icon": "/images/sidebar-settings.svg",
+          "text": "System Settings"
+        }
+      ]
+    }
+  ]
+  

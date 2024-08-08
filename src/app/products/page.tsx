@@ -1,28 +1,8 @@
-// app/products/layout.tsx
+import React from 'react';
+import ProductList from '../component/layout';
 
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Box } from "@mui/material";
-import ProductList from "../component/layout";
-
-const ProductsLayout = () => {
-  const router = useRouter();
-
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      router.push("/");
-    }
-  }, [router]);
-
-  return (
-    <Box>
-      <ProductList />
-    </Box>
-  );
+const DashboardPage: React.FC = () => {
+  return <ProductList />;
 };
 
-export default ProductsLayout;
+export default DashboardPage;

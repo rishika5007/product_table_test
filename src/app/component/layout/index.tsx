@@ -12,8 +12,6 @@ import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "next/link";
 import { Home as HomeIcon } from "@mui/icons-material";
-import Header from "../header/Header";
-import Sidebar from "../sidebar";
 import ProductTable from "../productTable";
 import { fetchProducts } from "@components/app/lib/api";
 
@@ -26,29 +24,12 @@ export default async function ProductList() {
   //    // Redirect to login if no token is present
   //    redirect("/login");
   //  }
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Header />
-      <Box sx={{ display: "flex" }}>
-        {/* <Sidebar /> */}
-        <Box
-          sx={{
-            flexGrow: 1,
-            overflow: "auto",
-            paddingTop: "100px",
-            marginInline: "20px",
-            marginLeft:"300px"
-          }}
-        >
+  return (<>
           <Box
             sx={{
               backgroundColor: "#fff",
               marginBottom: "16px",
+              marginTop: "50px",
               padding: "10px",
               border: "1px solid #fff",
               borderRadius: "12px",
@@ -57,9 +38,18 @@ export default async function ProductList() {
             }}
           >
             Projects
-            <Box sx={{ display: "flex" }}>
-              <Link href="/" color="inherit">
-                <HomeIcon /> / projects
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Link href="#" color="inherit" className="flex items-end">
+                <HomeIcon />
+                <span style={{ marginLeft: 4 }}>Home</span>
+                <Image src="/images/Next.svg" alt="arrow" width={24} height={24} loading="lazy" style={{ marginLeft: 4 }} />
+                <span style={{ marginLeft: 4 }}>Projects</span>
               </Link>
             </Box>
           </Box>
@@ -91,12 +81,12 @@ export default async function ProductList() {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  height: "30px",
+                  height: "40px",
                   fontSize: "12px",
                   lineHeight: "14px",
-                  fontWeight:"700",
-                  paddingY:"8px",
-                  paddingX:"22.5px"
+                  fontWeight: "700",
+                  paddingY: "12px",
+                  paddingX: "22px"
                 }}
               >
                 Add project
@@ -159,10 +149,7 @@ export default async function ProductList() {
               <ProductTable data={ProductData} />
             </Box>
           </Box>
-        </Box>
-      </Box>
-    </Box>
-  );
+        </>);
 }
 
 async function getData() {
