@@ -25,8 +25,6 @@ const Sidebar: React.FC<{ isOpen: boolean; onToggle: () => void }> = ({ isOpen, 
     setExpanded(isExpanded ? panel : true);
   };
 
-
-
   return (
     <SidebarContainer isOpen={isOpen}>
       {sidebarData.map((panel) => (

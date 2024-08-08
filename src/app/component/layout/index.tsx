@@ -53,6 +53,7 @@ export default async function ProductList() {
               border: "1px solid #fff",
               borderRadius: "12px",
               paddingBottom: "16px",
+              minHeight: "520px"
             }}
           >
             <Typography variant="body1" sx={{ marginLeft: "16px" }}>
