@@ -33,6 +33,7 @@ import ProductDetailModal from "../modal";
 import ProgressCircle from "../progress/progress";
 import TagsCell from "../dropDown";
 import SearchIcon from "@mui/icons-material/Search";
+import ActionButtons from "../actionButton";
 
 // Custom debounce function with cancel capability
 function debounce(func: (...args: any[]) => void, wait: number) {
@@ -169,44 +170,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
       id: "actions",
       size: 500,
       cell: ({ row }) => (
-        <div style={{ display: "flex" }}>
-          <IconButton onClick={() => handleOpen(row.original?.id)}>
-            <Image
-              src="/images/review.svg"
-              alt="review"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-          <IconButton>
-            <Image
-              src="/images/tabler-icon-edit.svg"
-              alt="edit"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-          <IconButton>
-            <Image
-              src="/images/tabler-icon-share.svg"
-              alt="upload"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-          <IconButton>
-            <Image
-              src="/images/tabler-icon-trash.svg"
-              alt="trash"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-        </div>
+        <ActionButtons onClick={() => handleOpen(row.original?.id)} />
       ),
     },
   ];
