@@ -43,23 +43,10 @@ const Header: React.FC<HeaderProps> = ({ onSidebarToggle }) => {
     };
 
     const logoutHandler = async () => {
-      try {
-        // Call the API route to handle logout on the server-side
-        await fetch("/api/logout", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
 
         // Destroy the cookie client-side
         nookies.destroy(null, "authToken");
-
-        // Redirect to the homepage or login page
         router.push("/");
-      } catch (error) {
-        console.error("Failed to logout:", error);
-      }
     };
     return (
         <header style={{ display: 'flex', alignItems: 'center', padding: '16px', backgroundColor: 'white', color: 'white', position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000 }}>

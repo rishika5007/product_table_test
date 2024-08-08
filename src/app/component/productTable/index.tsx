@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, MouseEvent, useCallback, useEffect } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import {
   useReactTable,
   ColumnDef,
@@ -50,6 +50,25 @@ function debounce(func: (...args: any[]) => void, wait: number) {
   return debounced;
 }
 
+const debouncedFilterData = debounce(
+  (
+    query: string,
+    data: Product[],
+    setFilteredData: React.Dispatch<React.SetStateAction<Product[]>>
+  ) => {
+    if (query.trim() === "") {
+      // If search query is empty, reset to original data
+      setFilteredData(data);
+    } else {
+      const newFilteredData = data.filter((item) =>
+        item.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredData(newFilteredData);
+    }
+  },
+  300
+);
+
 const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
@@ -60,21 +79,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState(data);
 
-  // Use custom debounce function for filtering data
-  const debouncedFilterData = useCallback(
-    debounce((query: string) => {
-      if (query.trim() === "") {
-        // If search query is empty, reset to original data
-        setFilteredData(data);
-      } else {
-        const newFilteredData = data.filter((item) =>
-          item.title.toLowerCase().includes(query.toLowerCase())
-        );
-        setFilteredData(newFilteredData);
-      }
-    }, 300), // Debounce delay of 300ms
-    [data]
-  );
+  useEffect(() => {
+    debouncedFilterData(searchQuery, data, setFilteredData);
+    // Clean up the debounced function on unmount
+    return () => {
+      debouncedFilterData.cancel();
+    };
+  }, [searchQuery, data]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -127,7 +138,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   };
 
   const handleSearchClick = () => {
-    debouncedFilterData(searchQuery); // Trigger search when search icon is clicked
+    // The search functionality is handled by the useEffect hook now
   };
 
   const columns: ColumnDef<Product, any>[] = [
@@ -185,14 +196,6 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
     },
     onSortingChange: setSorting,
   });
-
-
-  useEffect(()=>{
-    if(!searchQuery){
-      debouncedFilterData(searchQuery)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[searchQuery])
 
   return (
     <>
@@ -355,7 +358,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
               .map((row, rowIndex) => (
                 <StyledTableRow key={row.id} isEven={rowIndex % 2 === 0}>
                   {row.getVisibleCells().map((cell) => (
-                    <StyledTableCell key={cell.id} sx={{ paddingY: "26.5px"}}>
+                    <StyledTableCell key={cell.id} sx={{ paddingY: "26.5px" }}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
