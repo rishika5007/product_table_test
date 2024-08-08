@@ -29,7 +29,8 @@
         },
         {
           "icon": "/images/earth.svg",
-          "text": "Project Table"
+          "text": "Project Table",
+          "href": "/addProject"
         },
         {
           "icon": "/images/delete.svg",
@@ -44,11 +45,11 @@
       "items": [
         {
           "icon": "/images/add-project.svg",
-          "text": "Add property"
+          "text": "Add Property"
         },
         {
           "icon": "/images/earth.svg",
-          "text": "property Table"
+          "text": "Property Table"
         },
         {
           "icon": "/images/delete.svg",

@@ -9,6 +9,7 @@ import { fetchProductById } from '@components/app/lib/api';
 import ProductDetailModal from '../modal';
 import ProgressCircle from '../progress/progress';
 import TagsCell from '../dropDown';
+import ActionButtons from '../actionButton';
 
 const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -55,44 +56,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
       id: "actions",
       size: 500,
       cell: ({ row }) => (
-        <div style={{ display: "flex" }}>
-          <IconButton onClick={() => handleOpen(row.original?.id)}>
-            <Image
-              src="/images/review.svg"
-              alt="review"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-          <IconButton>
-            <Image
-              src="/images/tabler-icon-edit.svg"
-              alt="edit"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-          <IconButton>
-            <Image
-              src="/images/tabler-icon-share.svg"
-              alt="upload"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-          <IconButton>
-            <Image
-              src="/images/tabler-icon-trash.svg"
-              alt="trash"
-              width={24}
-              height={24}
-              loading="lazy"
-            />
-          </IconButton>
-        </div>
+        <ActionButtons onClick={() => handleOpen(row.original?.id)} />
       ),
     },
   ];

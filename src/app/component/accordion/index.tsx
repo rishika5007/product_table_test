@@ -13,7 +13,7 @@ const StyledAccordion = styled(Accordion)`
 `;
 
 const AccordionPanel: React.FC<{ panel: any; expanded: string | true; onChange: (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => void }> = ({ panel, expanded, onChange }) => {
-  return (
+  return (<>
     <StyledAccordion
       expanded={expanded === panel.id}
       onChange={onChange(panel.id)}
@@ -39,7 +39,16 @@ const AccordionPanel: React.FC<{ panel: any; expanded: string | true; onChange: 
         </List>
       </AccordionDetails>
     </StyledAccordion>
-  );
+    <Box
+     sx={{
+       backgroundColor: "#E0E0E0",
+       height: "1px",
+       width: "215px",
+       marginBlock: "6px",
+       marginInline: '20px'
+     }}
+   ></Box>
+ </> );
 };
 
 export default AccordionPanel;
