@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^5.16.6",
     "@tanstack/react-table": "^8.20.1",
     "axios": "^1.7.3",
+    "cookie": "^0.6.0",
     "next": "14.2.5",
     "nookies": "^2.5.2",
     "react": "^18",

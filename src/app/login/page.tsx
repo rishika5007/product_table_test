@@ -12,14 +12,22 @@ import {
   Alert,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { schema, FormData } from "../lib/validation";
+import { cookies } from "next/headers";
+
+
+
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(""); 
   const router = useRouter();
+
+
+
+  
 
   // Initializing React Hook Form
   const {
@@ -53,7 +61,7 @@ const LoginForm = () => {
 
        if (response.ok) {
         localStorage.setItem("authToken", result.token);
-        router.push("/products");
+        router.replace("/products");
       } else {
         setMessage(result.message || "Login failed!");
         setOpen(true);
@@ -66,12 +74,6 @@ const LoginForm = () => {
     }
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      router.push("/products"); 
-    }
-  }, [router]);
   
 
   return (

@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request) {
     // Destroy the authentication cookie
-    // destroyCookie(null, 'authToken', { path: '/' });
+    destroyCookie({ req: request }, 'authToken', { path: '/' });
 
-    // Redirect to login page after logging out
-    return NextResponse.redirect(new URL('/login', request.url));
+    // Redirect to the login page or home page after logging out
+    return NextResponse.redirect(new URL('/', request.url));
 }
