@@ -19,19 +19,13 @@ const SidebarContainer = styled('div')<{ isOpen: boolean }>`
 `;
 
 const Sidebar: React.FC<{ isOpen: boolean; onToggle: () => void }> = ({ isOpen, onToggle }) => {
-  // const [expanded, setExpanded] = useState<string | true>(true);
-
-  // const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-  //   setExpanded(isExpanded ? panel : true);
-  // };
-
-  const defaultExpanded = sidebarData[1]?.id || 'panel2';
-
-  const [expanded, setExpanded] = useState<string | true>(defaultExpanded);
+  const [expanded, setExpanded] = useState<string | true>(true);
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : (panel === defaultExpanded ? defaultExpanded : true));
+    setExpanded(isExpanded ? panel : true);
   };
+
+
 
   return (
     <SidebarContainer isOpen={isOpen}>
