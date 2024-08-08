@@ -445,11 +445,11 @@ const StyledTableCell = styled(TableCell)`
   width: 350px;
   color: #364152;
   &:nth-of-type(9) {
-    width: 15%;
+    width: 40%;
   }
   &:last-of-type {
     border-right: none;
-    width: 16%;
+    width: 100%;
   }
 `;
 
