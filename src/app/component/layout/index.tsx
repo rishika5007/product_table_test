@@ -15,56 +15,66 @@ import ProductTable from "../productTable";
 import { fetchProducts } from "@components/app/lib/api";
 
 export default async function ProductList() {
-  const ProductData = await getData();
- 
-  return (<>
+  const productData = await getData();
+
+  
+    return (
+      <>
+        <Box
+          sx={{
+            backgroundColor: "#fff",
+            marginBottom: "16px",
+            marginTop: "50px",
+            padding: "10px",
+            border: "1px solid #fff",
+            borderRadius: "12px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          Projects
           <Box
             sx={{
-              backgroundColor: "#fff",
-              marginBottom: "16px",
-              marginTop: "50px",
-              padding: "10px",
-              border: "1px solid #fff",
-              borderRadius: "12px",
               display: "flex",
-              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 1,
             }}
           >
+            <Link href="#" color="inherit" className="flex items-end">
+              <HomeIcon />
+              <span style={{ marginLeft: 4 }}>Home</span>
+              <Image
+                src="/images/Next.svg"
+                alt="arrow"
+                width={24}
+                height={24}
+                loading="lazy"
+                style={{ marginLeft: 4 }}
+              />
+              <span style={{ marginLeft: 4 }}>Projects</span>
+            </Link>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            background: "#fff",
+            paddingTop: "16px",
+            border: "1px solid #fff",
+            borderRadius: "12px",
+            paddingBottom: "16px",
+            maxHeight:"520px"
+          }}
+        >
+          <Typography variant="body1" sx={{ marginLeft: "16px" }}>
             Projects
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              <Link href="#" color="inherit" className="flex items-end">
-                <HomeIcon />
-                <span style={{ marginLeft: 4 }}>Home</span>
-                <Image src="/images/Next.svg" alt="arrow" width={24} height={24} loading="lazy" style={{ marginLeft: 4 }} />
-                <span style={{ marginLeft: 4 }}>Projects</span>
-              </Link>
-            </Box>
+          </Typography>
+
+          <Box sx={{ paddingX: "20px" }}>
+            <ProductTable data={productData} />
           </Box>
-          <Box
-            sx={{
-              background: "#fff",
-              paddingTop: "16px",
-              border: "1px solid #fff",
-              borderRadius: "12px",
-              paddingBottom: "16px",
-              minHeight: "520px"
-            }}
-          >
-            <Typography variant="body1" sx={{ marginLeft: "16px" }}>
-              Projects
-            </Typography>
-            
-            <Box sx={{ paddingX: "20px" }}>
-              <ProductTable data={ProductData} />
-            </Box>
-          </Box>
-        </>);
+        </Box>
+      </>
+    );
 }
 
 async function getData() {

@@ -1,37 +1,14 @@
-"use client";
-import React, { useState, MouseEvent, useEffect } from "react";
-import {
-  useReactTable,
-  ColumnDef,
-  getCoreRowModel,
-  getSortedRowModel,
-  flexRender,
-  SortingState,
-} from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  IconButton,
-  TablePagination,
-  TableFooter,
-  Box,
-  Typography,
-  InputAdornment,
-  TextField,
-  Button,
-} from "@mui/material";
-import styled from "@emotion/styled";
-import { Product, ProductTableProps } from "@components/app/lib/interface";
-import Image from "next/image";
-import { fetchProductById } from "@components/app/lib/api";
-import ProductDetailModal from "../modal";
-import ProgressCircle from "../progress/progress";
-import TagsCell from "../dropDown";
+'use client'
+import React, { MouseEvent, useEffect, useState } from 'react';
+import { useReactTable, ColumnDef, getCoreRowModel, getSortedRowModel, flexRender, SortingState } from '@tanstack/react-table';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination, TableFooter, Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Button, TextField, InputAdornment, Typography } from '@mui/material';
+import styled from '@emotion/styled';
+import { Product, ProductTableProps } from '@components/app/lib/interface';
+import Image from 'next/image';
+import { fetchProductById } from '@components/app/lib/api';
+import ProductDetailModal from '../modal';
+import ProgressCircle from '../progress/progress';
+import TagsCell from '../dropDown';
 import SearchIcon from "@mui/icons-material/Search";
 import ActionButtons from "../actionButton";
 
@@ -73,7 +50,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [activeColumnId, setActiveColumnId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -241,7 +218,9 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
             sx={{
               "& .MuiOutlinedInput-root": {
                 borderRadius: "4px",
-                border: "none",
+                border: "1px solid #fff",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                padding: "5px",
                 "& fieldset": {
                   border: "none",
                 },
@@ -278,110 +257,99 @@ const ProductTable: React.FC<ProductTableProps> = ({ data }) => {
           />
         </Box>
       </Box>
-      <TableContainer
-        component={Paper}
-        className="relative"
-        sx={scrollbarContainer}
-      >
-        <StyledTable>
-          <TableHead>
-            {getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableCell
-                    sx={{
-                      color: "#000000",
-                      fontWeight: "bold",
-                      fontSize: 14,
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      position: "relative",
-                    }}
-                    key={header.id}
-                    onClick={() =>
-                      header.column.getCanSort() && handleSort(header.id)
-                    }
-                  >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      {header.column.columnDef.header as string}
-                      <IconButton
-                        onClick={(event) => handleMenuClick(event, header.id)}
+      {filteredData.length > 0 ? (
+        <Paper>
+          <TableContainer
+            component={Paper}
+            className="relative"
+            sx={scrollbarContainer}
+          >
+            <StyledTable>
+              <TableHead>
+                {getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableCell
+                        sx={{
+                          color: "#000000",
+                          fontWeight: "bold",
+                          fontSize: 14,
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          cursor: "pointer",
+                        }}
+                        key={header.id}
+                        onClick={() =>
+                          header.column.getCanSort() && handleSort(header.id)
+                        }
                       >
-                        <Image
-                          src="/images/dot_menu.svg"
-                          width={24}
-                          height={24}
-                          alt="more icon"
-                          loading="lazy"
-                        />
-                      </IconButton>
-                      {activeColumnId === header.id && (
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            background: "#fff",
-                            zIndex: 10,
-                            right: 5,
-                            top: 45,
-                            padding: "10px",
-                            boxShadow: 3,
-                          }}
-                        >
-                          {activeColumnId === header.id ? (
-                            <>
-                              <Typography
-                                variant="body1"
-                                sx={{ fontSize: "12px", cursor: "pointer" }}
-                              >
-                                Edit
-                              </Typography>
-                              <Typography
-                                variant="body1"
-                                sx={{ fontSize: "12px", cursor: "pointer" }}
-                              >
-                                Delete
-                              </Typography>
-                            </>
-                          ) : null}
-                        </Box>
-                      )}
-                    </Box>
-                  </TableCell>
+                        <span className="flex">
+                          {header.column.columnDef.header as string}
+                          <Image
+                            src="/images/dot_menu.svg"
+                            width={24}
+                            height={24}
+                            alt="more icon"
+                            loading="lazy"
+                          />
+                        </span>
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
-          </TableHead>
-          <TableBody sx={{ marginBottom: "10px" }}>
-            {getRowModel()
-              .rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, rowIndex) => (
-                <StyledTableRow key={row.id} isEven={rowIndex % 2 === 0}>
-                  {row.getVisibleCells().map((cell) => (
-                    <StyledTableCell key={cell.id} sx={{ paddingY: "36.5px" }}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </StyledTableCell>
+              </TableHead>
+              <TableBody sx={{ marginBottom: "10px" }}>
+                {getRowModel()
+                  .rows.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  .map((row, rowIndex) => (
+                    <StyledTableRow key={row.id} isEven={rowIndex % 2 === 0}>
+                      {row.getVisibleCells().map((cell) => (
+                        <StyledTableCell
+                          key={cell.id}
+                          sx={{ paddingY: "26.5px" }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </StyledTableCell>
+                      ))}
+                    </StyledTableRow>
                   ))}
-                </StyledTableRow>
-              ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePaginationStyled
-                rowsPerPageOptions={[5, 10, 25, 50]}
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </TableRow>
-          </TableFooter>
-        </StyledTable>
-      </TableContainer>
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePaginationStyled
+                    rowsPerPageOptions={[5, 10, 25, 50]}
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
+            </StyledTable>
+          </TableContainer>
+        </Paper>
+      ) : (
+        <Box
+          sx={{
+            textAlign: "center",
+            padding: "20px",
+            color: "#f44336", // Red color for error message
+            backgroundColor: "#fbe9e7", // Light red background
+            borderRadius: "4px",
+            border: "1px solid #f44336", // Border color matching error text
+          }}
+        >
+          <Typography variant="body1">No Data Found!</Typography>
+        </Box>
+      )}
+
       <ProductDetailModal
         open={open}
         onClose={handleClose}
