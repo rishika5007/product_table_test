@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import AccordionPanel from '../accordion';
 import sidebarData from '../../lib/mock.json'
 const SidebarContainer = styled('div')<{ isOpen: boolean }>`
-  width: ${(props) => (props.isOpen ? '250px' : '0')};
+  width: ${(props) => (props.isOpen ? '270px' : '0')};
   height: 100%;
   background-color: white;
   color: white;
@@ -19,10 +19,18 @@ const SidebarContainer = styled('div')<{ isOpen: boolean }>`
 `;
 
 const Sidebar: React.FC<{ isOpen: boolean; onToggle: () => void }> = ({ isOpen, onToggle }) => {
-  const [expanded, setExpanded] = useState<string | true>(true);
+  // const [expanded, setExpanded] = useState<string | true>(true);
+
+  // const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+  //   setExpanded(isExpanded ? panel : true);
+  // };
+
+  const defaultExpanded = sidebarData[1]?.id || 'panel2';
+
+  const [expanded, setExpanded] = useState<string | true>(defaultExpanded);
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : true);
+    setExpanded(isExpanded ? panel : (panel === defaultExpanded ? defaultExpanded : true));
   };
 
   return (

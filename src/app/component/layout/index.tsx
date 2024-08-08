@@ -17,7 +17,6 @@ import { fetchProducts } from "@components/app/lib/api";
 export default async function ProductList() {
   const ProductData = await getData();
  
-  //  }
   return (<>
           <Box
             sx={{

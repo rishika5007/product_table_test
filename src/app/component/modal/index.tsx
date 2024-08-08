@@ -42,10 +42,10 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, onClose, 
                                     Review {index + 1}
                                 </Typography>
                                 <Typography variant="body1" sx={infoValue}>
-                                    <strong>{'Review Name: '}</strong>{review.reviewerName || 'NA'}
+                                    <strong>{'Reviewer Name: '}</strong>{review.reviewerName || 'NA'}
                                 </Typography>
                                 <Typography variant="body1" sx={infoValue}>
-                                    <strong>{'Review Email: '}</strong>{review.reviewerEmail || 'NA'}
+                                    <strong>{'Reviewer Email: '}</strong>{review.reviewerEmail || 'NA'}
                                 </Typography>
                                 <Typography variant="body1" sx={infoValue}>
                                     <strong>{'Rating: '}</strong>

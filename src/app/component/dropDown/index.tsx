@@ -32,9 +32,6 @@ const TagsCell = ({ value }: { value: string[] }) => {
                 value={tags}
                 onChange={handleChange}
                 input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                // renderValue={(value) => (
-                //     <Chip key={value} label={value} />
-                // )}
             >
                 {value.map((name) => (
                     <MenuItem

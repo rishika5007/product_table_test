@@ -2,7 +2,7 @@ import { IconButton } from "@mui/material";
 import Image from "next/image";
 
 const ActionButtons: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <div style={{ display: "flex", }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <IconButton onClick={onClick} sx={{padding:'3px' }}>
         <Image src="/images/review.svg" alt="review" width={24} height={24} loading="lazy" />
       </IconButton>

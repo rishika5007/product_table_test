@@ -6,7 +6,7 @@ import Header from '../component/dashboard/header';
 
 const MainContent = styled('div')<{ isSidebarOpen: boolean }>`
   margin-top: 64px; 
-  margin-left: ${(props) => (props.isSidebarOpen ? '250px' : '0')};
+  margin-left: ${(props) => (props.isSidebarOpen ? '270px' : '0')};
   transition: margin-left 0.3s;
   padding: 16px;
   width: 100%;
